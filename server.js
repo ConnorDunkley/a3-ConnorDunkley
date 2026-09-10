@@ -72,14 +72,27 @@ app.post( '/submit', async (req,res) => {
   
 })
 
-// app.post( '/update', async (req,res) => { //as of now unimplemented
-//   const result = await collection.updateOne(
-//     { _id: new ObjectId( req.body._id ) },
-//     { $set:{ name:req.body.name } }
-//   )
+app.post( '/modify', async (req,res) => { 
+  let dataString = ''
 
-//   res.json( result )
-// })
+    req.on( 'data', function( data ) {
+        dataString += data 
+    })
+    
+  req.on( 'end', async function() {
+    json = JSON.parse(dataString)
+    id = json._id
+    item = json.item
+    cost = json.cost
+    count = json.count 
+    const result = await collection.updateOne(
+    { _id: id },
+    { $set:{ item: item, count: count, cost: cost } }
+    )
+    res.json( result )
+  })
+  
+})
 
 run()
 

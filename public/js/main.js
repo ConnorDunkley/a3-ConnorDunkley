@@ -1,7 +1,7 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 let ul = null //null reference to ul, need to load the page before manipulating stuff in the DOM, want global scope so all fns can access
 const list = null
-const submit = async function( event ) { //submit function
+const submitAdd = async function( event ) { //submit function
   // stop form submission from trying to load
   // a new .html page for displaying results...
   // this was the original browser behavior and still
@@ -16,7 +16,7 @@ const submit = async function( event ) { //submit function
   const json = { _id: crypto.randomUUID(), item: item.value, count: count.value, cost: cost.value }//attach ID as this is constructed, get it from the server?
         body = JSON.stringify( json )
      
-  console.log(json)
+  //console.log(json)
   if(!fieldsEmpty){
       const response = await fetch( '/submit', {
       method:'POST',
@@ -56,6 +56,9 @@ const addmode = async function( event ){
   document.querySelector("#modifymodebtn").className = "unselectedbtn"
   document.querySelector("#addelems").hidden = false
   document.querySelector("#modifyelems").hidden = true
+  document.querySelector('#moditem').value = ""
+  document.querySelector('#modcost').value = ""
+  document.querySelector('#modcount').value = ""
 }
 const modmode = async function( event ){
   event.preventDefault
@@ -63,12 +66,43 @@ const modmode = async function( event ){
   document.querySelector("#modifymodebtn").className = "selectedbtn"
   document.querySelector("#addelems").hidden = true
   document.querySelector("#modifyelems").hidden = false
+  document.querySelector('#additem').value = ""
+  document.querySelector('#addcost').value = ""
+  document.querySelector('#addcount').value = ""
 }
+const submitMod = async function ( event ){
+  event.preventDefault()
+  selection = document.querySelector("#moddropdown")
+  const id = selection.value
+  //selection.value is a string containing the selected value
+  const item = document.querySelector( '#moditem' ),
+        count = document.querySelector( '#modcost' ),
+        cost = document.querySelector( '#modcount' )
+  const fieldsEmpty = item.value === "" || count.value === "" || cost.value === "" || id === "none" || id === ""
+  const json = { _id: id, item: item.value, count: count.value, cost: cost.value }//attach ID as this is constructed, get it from the server?
+        body = JSON.stringify( json )
 
+  if(!fieldsEmpty){
+      const response = await fetch( '/modify', {
+      method:'POST',
+      body 
+    })
+    const success = await response.json() 
+    if(!success.acknowledged){
+      console.log("Modification Error!")
+    }
+  } else {
+    console.log("Fields are empty!") //do frontend warning here later!!!
+  }
+  const getresponse = await fetch('/getlist', {method: 'GET'})
+  shoplist = await getresponse.json()
+  loadList(shoplist)
+
+}
 const loadList = function(arr){
   ul.innerHTML = ''
   selector = document.querySelector('#moddropdown')
-  selector.innerHTML = '<option value="">Select an Item</option>'
+  selector.innerHTML = '<option value="none">Select an Item</option>'
   total = 0
   for (let i of arr){
     //console.log(i)
@@ -92,8 +126,7 @@ const loadList = function(arr){
       total += (i.count * i.cost)
       modOption = document.createElement( 'option' )
       modOption.innerText = i.item + " x " + i.count + " = $" + (i.cost * i.count)
-      modOption.id = i._id
-      modOption.value = i.item + " x " + i.count + " = $" + (i.cost * i.count)
+      modOption.value = i._id
       selector.appendChild(modOption)
   }
   tdisp = document.getElementById('tdisp')
@@ -103,11 +136,13 @@ const loadList = function(arr){
 
 window.onload = async function() {
   const submitbutton = document.querySelector('#submitadd')
-  submitbutton.onclick = submit
+  submitbutton.onclick = submitAdd
   const addmodebtn = document.querySelector('#addmodebtn')
   addmodebtn.onclick = addmode 
   const modmodebtn = document.querySelector('#modifymodebtn')
   modmodebtn.onclick = modmode 
+  const submitmod = document.querySelector('#submitmod')
+  submitmod.onclick = submitMod
   ul = document.createElement( 'ul')
   ul.id = 'mainlist'
   document.body.appendChild( ul )
