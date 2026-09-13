@@ -1,11 +1,40 @@
 require( 'dotenv' ).config()
 
 const express = require("express"),
+      cookie = require('cookie-session'),
       { MongoClient, ObjectId } = require("mongodb"),
       app = express()
 
 app.use( express.static( "public" ) )
 app.use( express.json() )
+app.use(express.urlencoded({ extended:true }))
+
+app.use(cookie ({
+  name: 'session',
+  keys: ['cookiekey1', 'uniquekey2']
+}))
+
+app.post('/login', (req, res)=> {
+  console.log(req.body)
+  //verify here that Username is in the db
+  if(req.body.password === 'test'){ //verify password is the one for the username
+      req.session.login = true
+      res.redirect('main.html')
+  } else {
+    res.sendFile(__dirname + '/public/index.html')
+  }
+
+
+})
+
+app.use( function (req, res, next) {
+  if (req.session.login === true )
+    next()
+  else 
+    res.sendFile(__dirname + '/public/index.html')
+})
+
+
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}`
 // check for sanity
