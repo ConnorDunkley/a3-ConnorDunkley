@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <title>CS4241 Assignment 3 - Connor Dunkley</title>
+    <meta charset='utf-8' />
+    <script src='js/main.js'></script>
+    <link rel='stylesheet' href='css/main.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- get rid of favicon error -->
+    <link rel='icon' href='data:;base64,iVBORw0KGgo=' />
+  </head>
+  <body>
+    <h1 id="title" class="titles">
+      Shopping List
+    </h1>
+    <h2 id="modetitle" class="titles"> Mode </h2>
+      <button class="selectedbtn" id="addmodebtn"> Add </button>
+      <button class="unselectedbtn" id="modifymodebtn"> Modify </button>
+    
+      <form class="form1" method="POST" id="addelems">
+      <input class="listinput" type='text' id='additem' placeholder='Item?'>
+      <br>
+      <input class="listinput" id='addcost' placeholder='Cost? $' type="number" min="0">
+      <br>
+      <input class="listinput" id='addcount' placeholder='How many?' type="number" name="quantity" min="0" step="1">
+      <br>
+      <button class="submitbutton" id="submitadd">Add Item</button>
+    </form>
+    
+    
+      <form class="form1" method="POST" hidden id="modifyelems">
+        <select id="moddropdown">
+          <!-- Append the list of items here -->
+        </select>
+        <br>
+        <input class="listinput" type='text' id='moditem' placeholder='Item?'>
+        <br>
+        <input class="listinput" id='modcost' placeholder='Cost? $' type="number" min="0">
+        <br>
+        <input class="listinput" id='modcount' placeholder='How many?' type="number" name="quantity" min="0" step="1">
+        <br>
+        <button class="submitbutton" id="submitmod">Modify Item</button>
+      </form>
+    
+    <h2 hidden id="tdisp" class="titles"></h2>
+  </body>
+</html>

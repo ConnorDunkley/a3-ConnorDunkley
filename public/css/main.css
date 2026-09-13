@@ -20,6 +20,8 @@ html, body {
 .listinput {
   border: 2px solid darkcyan;
   border-radius:  5px;
+  margin: 4px;
+  font-size: large;
 }
 #mainlist {
   display: inline-block;
@@ -47,6 +49,10 @@ html, body {
 }
 .titles{
   margin: 30px auto;
+  color: darkcyan;
+}
+.authtitle{
+  margin-top: 8rem ;
   color: darkcyan;
 }
 .itembutton{
