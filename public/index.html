@@ -3,7 +3,7 @@
   <head>
     <title>CS4241 Assignment 3 - Connor Dunkley</title>
     <meta charset='utf-8' />
-    <script src='js/main.js'></script>
+    <script src='js/logins.js'></script>
     <link rel='stylesheet' href='css/main.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- get rid of favicon error -->
@@ -12,13 +12,12 @@
   <body>
     <h1 class="authtitle"> Log In</h1>
     <br>
-    <form action='/login' method='POST'>
-      
+    <form>
       <input class="listinput" type='text' name='username' id='loginUsername' title="Username" placeholder="Enter Username">
       <br>
       <input class="listinput" type='password' name='password' id="loginPassword" title="Password" placeholder="Enter Password">
       <br>
-      <input type='submit' class="submitbutton">
+      <input onclick="login( event )" type='submit' class="submitbutton">
     </form>
     <br>
     <form action="signup.html">

@@ -15,24 +15,34 @@ app.use(cookie ({
 }))
 
 app.post('/login', (req, res)=> {
-  console.log(req.body)
-  //verify here that Username is in the db
-  if(req.body.password === 'test'){ //verify password is the one for the username
+  console.log("Login route reached")
+  let dataString = ''
+    req.on( 'data', function( data ) {
+        dataString += data 
+    })
+    
+  req.on( 'end', async function() {
+    //console.log(JSON.parse(dataString))
+    //console.log(JSON.parse(dataString).password === 'test')
+    //verify here that Username is in the db
+    if(JSON.parse(dataString).password === 'test'){ //verify password is the one for the username
       req.session.login = true
-      res.redirect('main.html')
+      res.sendFile( __dirname + '/public/main.html' )
   } else {
-    res.sendFile(__dirname + '/public/index.html')
+    res.sendFile( __dirname + '/public/index.html' )
   }
-
-
+  })
 })
 
-app.use( function (req, res, next) {
-  if (req.session.login === true )
-    next()
-  else 
-    res.sendFile(__dirname + '/public/index.html')
-})
+// app.use( function (req, res, next) { //does run but is broken
+//   if (req.session.login === true ) {
+//     console.log("Logged in")
+//     next()
+//   }
+//   else 
+//     console.log("Not logged in, redirect to index")
+//     res.sendFile(__dirname + '/public/index.html')
+// })
 
 
 
