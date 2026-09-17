@@ -16,35 +16,37 @@ const login = async function( event ) {
     // if(!success.acknowledged){
     //   console.log("Login Error!")
     // }
-    
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
     }
     else {
         console.log("Login fields are empty!")
     }
 
 }
-const signup = async function( event ){
-    event.preventDefault()
-    const signupUsername = document.querySelector( '#signupUsername' ),
-        signupPassword = document.querySelector( '#signupPassword' )
-    const fieldsEmpty = signupUsername.value || signupPassword.value
-    const json = {username: signupUsername, password: signupPassword}
-    body = JSON.stringify( json )
+// const signup = async function( event ){
+//     event.preventDefault()
+//     const signupUsername = document.querySelector( '#signupUsername' ),
+//         signupPassword = document.querySelector( '#signupPassword' )
+//     const fieldsEmpty = signupUsername.value || signupPassword.value
+//     const json = {username: signupUsername, password: signupPassword}
+//     body = JSON.stringify( json )
 
-    if(!fieldsEmpty){
-        const response = await fetch( '/login', {
-      method:'POST',
-      body 
-    })
-    const success = await response.json()
-    if(!success.acknowledged){
-      console.log("Signup Error!")
-    }
-    }
-    else {
-        console.log("Signup fields are empty!")
-    }
-}
+//     if(!fieldsEmpty){
+//         const response = await fetch( '/login', {
+//       method:'POST',
+//       body 
+//     })
+//     const success = await response.json()
+//     if(!success.acknowledged){
+//       console.log("Signup Error!")
+//     }
+//     }
+//     else {
+//         console.log("Signup fields are empty!")
+//     }
+// }
 
 
 // window.onload = async function() {

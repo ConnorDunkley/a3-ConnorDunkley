@@ -10,9 +10,20 @@ app.use( express.json() )
 app.use(express.urlencoded({ extended:true }))
 
 app.use(cookie ({
-  name: 'session',
+  name: 'session', //can set properties of this session, can store username here
   keys: ['cookiekey1', 'uniquekey2']
 }))
+
+// app.use( function (req, res, next) { //middleware auth check
+//   if (req.session.login === true ) {
+//     console.log("Logged in")
+//     next()
+//   }
+//   else 
+//     console.log("Not logged in, redirect to index")
+//     return res.status(302).end()
+// })
+
 
 app.post('/login', (req, res)=> {
   console.log("Login route reached")
@@ -27,24 +38,18 @@ app.post('/login', (req, res)=> {
     //verify here that Username is in the db
     if(JSON.parse(dataString).password === 'test'){ //verify password is the one for the username
       req.session.login = true
-      res.sendFile( __dirname + '/public/main.html' )
+      res.redirect('/main.html')
   } else {
-    res.sendFile( __dirname + '/public/index.html' )
+    res.redirect('/index.html')
   }
   })
 })
 
-// app.use( function (req, res, next) { //does run but is broken
-//   if (req.session.login === true ) {
-//     console.log("Logged in")
-//     next()
-//   }
-//   else 
-//     console.log("Not logged in, redirect to index")
-//     res.sendFile(__dirname + '/public/index.html')
-// })
-
-
+app.get('/logout', (req, res) => {
+  console.log("logout on server side")
+  req.session.login = false
+  res.redirect('/index.html')
+})
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}`
 // check for sanity
@@ -83,12 +88,12 @@ app.post( '/delete', async (req,res) => {
   })
 })
 
-app.get("/getlist", async (req, res) => { //error happens here
+app.get("/getlist", async (req, res) => { 
   await client.connect()
   let collection = await client.db("ShoppingList").collection("Items")
   let results = await collection.find({})
     .toArray()
-  res.send(results).status(200)
+  res.send(results)
 })
 
 app.post( '/submit', async (req,res) => {

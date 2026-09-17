@@ -30,8 +30,8 @@ const submitAdd = async function( event ) { //submit function
     console.log("Fields are empty!") //do frontend warning here later!!!
   }
   const getresponse = await fetch('/getlist', {method: 'GET'})
-    shoplist = await getresponse.json()
-    loadList(shoplist)
+  shoplist = await getresponse.json()
+  loadList(shoplist)
   //add onto things here
   //console.log( arr ) //can run json parse here
   //loadList(arr)
@@ -47,8 +47,8 @@ const deleteEntry = async function(id){
     console.log("Deletion Error!")
   } 
   const getresponse = await fetch('/getlist', {method: 'GET'})
-    shoplist = await getresponse.json()
-    loadList(shoplist)
+  shoplist = await getresponse.json()
+  loadList(shoplist)
 }
 const addmode = async function( event ){
   event.preventDefault
@@ -99,6 +99,20 @@ const submitMod = async function ( event ){
   loadList(shoplist)
 
 }
+
+const logout = async function ( event ){
+  console.log("logout ran on client side")
+  event.preventDefault()
+  const response = await fetch( '/logout', {
+      method:'GET' 
+    })
+  if (response.redirected) {
+      window.location.href = response.url;
+    }
+}
+
+
+
 const loadList = function(arr){
   ul.innerHTML = ''
   selector = document.querySelector('#moddropdown')
@@ -143,6 +157,8 @@ window.onload = async function() {
   modmodebtn.onclick = modmode 
   const submitmod = document.querySelector('#submitmod')
   submitmod.onclick = submitMod
+  const logoutbtn = document.querySelector('#logoutbtn')
+  logoutbtn.onclick = logout
   ul = document.createElement( 'ul')
   ul.id = 'mainlist'
   document.body.appendChild( ul )
