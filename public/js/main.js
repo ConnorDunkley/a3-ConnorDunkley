@@ -1,6 +1,7 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 let ul = null //null reference to ul, need to load the page before manipulating stuff in the DOM, want global scope so all fns can access
 const list = null
+let user = ""
 const submitAdd = async function( event ) { //submit function
   // stop form submission from trying to load
   // a new .html page for displaying results...
@@ -13,11 +14,12 @@ const submitAdd = async function( event ) { //submit function
         cost = document.querySelector( '#addcost' )
   
   const fieldsEmpty = item.value === "" || count.value === "" || cost.value === ""
-  const json = { _id: crypto.randomUUID(), item: item.value, count: count.value, cost: cost.value }//attach ID as this is constructed, get it from the server?
+  const json = { _id: crypto.randomUUID(), item: item.value, count: count.value, cost: cost.value, user: user }//attach ID as this is constructed, get it from the server?
         body = JSON.stringify( json )
      
   //console.log(json)
   if(!fieldsEmpty){
+      console.log("hit submit route")
       const response = await fetch( '/submit', {
       method:'POST',
       body 
@@ -79,7 +81,7 @@ const submitMod = async function ( event ){
         count = document.querySelector( '#modcost' ),
         cost = document.querySelector( '#modcount' )
   const fieldsEmpty = item.value === "" || count.value === "" || cost.value === "" || id === "none" || id === ""
-  const json = { _id: id, item: item.value, count: count.value, cost: cost.value }//attach ID as this is constructed, get it from the server?
+  const json = { _id: id, item: item.value, count: count.value, cost: cost.value, user: user } //user field is the currently logged in user
         body = JSON.stringify( json )
 
   if(!fieldsEmpty){
@@ -120,7 +122,7 @@ const loadList = function(arr){
   total = 0
   for (let i of arr){
     //console.log(i)
-    if(i.item === ''){
+    if(i.item === '' || i.user !== user){ //user of the item must match the current user to display
       continue
     }
       const li = document.createElement( 'li' )
@@ -162,6 +164,9 @@ window.onload = async function() {
   ul = document.createElement( 'ul')
   ul.id = 'mainlist'
   document.body.appendChild( ul )
+  const userResponse = await fetch('/getuser', {method: 'GET'})
+  userJSON = await userResponse.json()
+  user = userJSON.username
   const response = await fetch('/getlist', {method: 'GET'})
   shoplist = await response.json()
   loadList(shoplist)
