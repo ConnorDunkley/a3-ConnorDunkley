@@ -54,8 +54,8 @@ const deleteEntry = async function(id){
 }
 const addmode = async function( event ){
   event.preventDefault
-  document.querySelector("#addmodebtn").className = "selectedbtn"
-  document.querySelector("#modifymodebtn").className = "unselectedbtn"
+  document.querySelector("#addmodebtn").className = "btn btn-primary"
+  document.querySelector("#modifymodebtn").className = "btn btn-outline-primary"
   document.querySelector("#addelems").hidden = false
   document.querySelector("#modifyelems").hidden = true
   document.querySelector('#moditem').value = ""
@@ -64,8 +64,8 @@ const addmode = async function( event ){
 }
 const modmode = async function( event ){
   event.preventDefault
-  document.querySelector("#addmodebtn").className = "unselectedbtn"
-  document.querySelector("#modifymodebtn").className = "selectedbtn"
+  document.querySelector("#addmodebtn").className = "btn btn-outline-primary"
+  document.querySelector("#modifymodebtn").className = "btn btn-primary"
   document.querySelector("#addelems").hidden = true
   document.querySelector("#modifyelems").hidden = false
   document.querySelector('#additem').value = ""

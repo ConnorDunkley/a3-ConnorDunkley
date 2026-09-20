@@ -1,12 +1,13 @@
 html, body {
   font-family: Arial, Helvetica, sans-serif;
-  background:lightblue;
+  background:lightblue !important;
   color:black;
   text-align: center;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 
 .card {
   width: 100%;
@@ -49,6 +50,10 @@ html, body {
 }
 .titles{
   margin: 30px auto;
+  color: darkcyan;
+}
+.smalltitle{
+  margin: 10px auto;
   color: darkcyan;
 }
 .authtitle{

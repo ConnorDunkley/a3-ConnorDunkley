@@ -4,7 +4,7 @@
     <title>CS4241 Assignment 3 - Connor Dunkley</title>
     <meta charset='utf-8' />
     <script src='js/main.js'></script>
-    <!-- <link rel='stylesheet' href='css/main.css' /> -->
+    <link rel='stylesheet' href='css/main.css' />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- get rid of favicon error -->
@@ -12,14 +12,17 @@
   </head>
   <body class="jumbotron text-center">
     <!-- add top right logout btn here, id = logoutbtn-->
-     <h2 id="currentUser"></h2>
-    <button class="submitbutton" id="logoutbtn"> Log Out </button>
+     <div class="position-fixed top-0 end-0 p-3 " style="z-index: 1050;">
+      <h3 id="currentUser" class="smalltitle"></h3>
+      <button class="btn btn-primary" id="logoutbtn"> Log Out </button>
+     </div>
+     
     <h1 id="title" class="titles">
       Shopping List
     </h1>
-    <h2 id="modetitle" class="titles"> Mode </h2>
-      <button class="selectedbtn" id="addmodebtn"> Add </button>
-      <button class="unselectedbtn" id="modifymodebtn"> Modify </button>
+    <h2 id="modetitle" class="smalltitle"> Mode </h2>
+      <button class="btn btn-primary" id="addmodebtn"> Add </button>
+      <button class="btn btn-outline-primary" id="modifymodebtn"> Modify </button>
     
       <form class="form1" method="POST" id="addelems">
       <input class="listinput" type='text' id='additem' placeholder='Item?'>
@@ -28,12 +31,12 @@
       <br>
       <input class="listinput" id='addcount' placeholder='How many?' type="number" name="quantity" min="0" step="1">
       <br>
-      <button class="submitbutton" id="submitadd">Add Item</button>
+      <button class="btn btn-primary" id="submitadd">Add Item</button>
     </form>
     
     
       <form class="form1" method="POST" hidden id="modifyelems">
-        <select id="moddropdown">
+        <select id="moddropdown" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <!-- Append the list of items here -->
         </select>
         <br>
@@ -43,7 +46,7 @@
         <br>
         <input class="listinput" id='modcount' placeholder='How many?' type="number" name="quantity" min="0" step="1">
         <br>
-        <button class="submitbutton" id="submitmod">Modify Item</button>
+        <button class="btn btn-primary" id="submitmod">Modify Item</button>
       </form>
     
     <h2 hidden id="tdisp" class="titles"></h2>
