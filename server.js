@@ -27,7 +27,7 @@ app.use(cookie ({
 
 
 app.post('/login', (req, res)=> {
-  console.log("Login route reached")
+  //console.log("Login route reached")
   let dataString = ''
     req.on( 'data', function( data ) {
         dataString += data 
@@ -42,9 +42,9 @@ app.post('/login', (req, res)=> {
     username = JSON.parse(dataString).username
     password = JSON.parse(dataString).password
     collection.findOne({username: username}).then(user => {
-    console.log(user)
+    //console.log(user)
     if(!user){ //user is null if not found
-      console.log("user not found, inserting user " + username)
+      //console.log("user not found, inserting user " + username)
       //user is not found in the db //signup
       collection.insertOne(JSON.parse(dataString))
       req.session.username = username
@@ -55,13 +55,13 @@ app.post('/login', (req, res)=> {
     }
     else {
       if(user.password === password){
-        console.log("username found, password is correct, username is " + username + " and password is " + password)
+        //console.log("username found, password is correct, username is " + username + " and password is " + password)
         //log in
         req.session.username = username
         req.session.login = true
         res.redirect('/main.html')
       } else {
-        console.log("username found, password is INCORRECT, username is " + username + " and password is " + password)
+        //console.log("username found, password is INCORRECT, username is " + username + " and password is " + password)
         //login fail
         res.redirect('/index.html')
       }
@@ -71,7 +71,7 @@ app.post('/login', (req, res)=> {
 })
 
 app.get('/logout', (req, res) => {
-  console.log("logout on server side")
+  //console.log("logout on server side")
   req.session.login = false
   req.session.username = ""
   res.redirect('/index.html')
@@ -118,7 +118,7 @@ app.post( '/delete', async (req,res) => {
     })
     req.on( 'end', async function() {
     myId = JSON.parse(dataString)._id
-    console.log(myId)
+    //console.log(myId)
   collection = await client.db("ShoppingList").collection("Items")  
   const result = await collection.deleteOne({ 
     "_id": myId //new ObjectId( myId ) 

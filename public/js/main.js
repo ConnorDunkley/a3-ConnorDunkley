@@ -19,7 +19,7 @@ const submitAdd = async function( event ) { //submit function
      
   //console.log(json)
   if(!fieldsEmpty){
-      console.log("hit submit route")
+      //console.log("hit submit route")
       const response = await fetch( '/submit', {
       method:'POST',
       body 
@@ -42,7 +42,7 @@ const submitAdd = async function( event ) { //submit function
 const deleteEntry = async function(id){
   json = {_id: id}
   body = JSON.stringify(json)
-  console.log("deleteEntry called")
+  //console.log("deleteEntry called")
   const success = await fetch('/delete', {method:'POST', body})
   console.log(success)
   if(!success.status === 200){
@@ -103,7 +103,7 @@ const submitMod = async function ( event ){
 }
 
 const logout = async function ( event ){
-  console.log("logout ran on client side")
+  //console.log("logout ran on client side")
   event.preventDefault()
   const response = await fetch( '/logout', {
       method:'GET' 
@@ -170,4 +170,13 @@ window.onload = async function() {
   const response = await fetch('/getlist', {method: 'GET'})
   shoplist = await response.json()
   loadList(shoplist)
+  const currentUserTitle = document.querySelector('#currentUser')
+  if(user === ""){
+    currentUserTitle.innerText = "Not Logged In!"
+    logoutbtn.innerText = "Log in!"
+  } else {
+    currentUserTitle.innerText = "Logged into: " + user
+    logoutbtn.innerText = "Log Out"
+  }
+  
 }

@@ -1,13 +1,13 @@
 const login = async function( event ) {
     event.preventDefault()
-    console.log("Login client function reached")
+    //console.log("Login client function reached")
     const loginUsername = document.querySelector( '#loginUsername' ),
         loginPassword = document.querySelector( '#loginPassword' )
     const fieldsEmpty = loginUsername.value === "" || loginPassword.value === ""
     const json = {username: loginUsername.value, password: loginPassword.value}
     body = JSON.stringify( json )
     if(!fieldsEmpty){
-        console.log(JSON.parse(body))
+        //console.log(JSON.parse(body))
         const response = await fetch( '/login', {
       method:'POST',
       body 
